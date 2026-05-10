@@ -1,971 +1,346 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Sudoku</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sunday Test Portal</title>
 
 <style>
-body {
-  text-align:center;
-  font-family:Arial;
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
 }
 
-table {
-  border-collapse: collapse;
-  margin:20px auto;
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    overflow:hidden;
+    color:white;
 }
 
-input {
-  width:100%;
-  height:100%;
-  text-align:center;
-  border:none;
-  font-size:18px;
-  font-weight:bold;
+/* Background Glow */
+
+body::before{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:rgba(0,255,255,0.08);
+    border-radius:50%;
+    top:-150px;
+    left:-150px;
+    filter:blur(100px);
 }
 
-input:disabled {
-  background:#eee;
+body::after{
+    content:"";
+    position:absolute;
+    width:500px;
+    height:500px;
+    background:rgba(255,0,150,0.08);
+    border-radius:50%;
+    bottom:-150px;
+    right:-150px;
+    filter:blur(100px);
 }
 
-button {
-  padding:10px;
+/* Main Card */
+
+.container{
+    position:relative;
+    z-index:10;
+    width:90%;
+    max-width:500px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:25px;
+    padding:40px 30px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(0,0,0,0.4);
 }
+
+/* Heading */
+
+h1{
+    font-size:2rem;
+    margin-bottom:15px;
+}
+
+.subtitle{
+    color:#cbd5e1;
+    margin-bottom:30px;
+    font-size:1rem;
+}
+
+/* Live Clock */
+
+.live-clock{
+    font-size:2.5rem;
+    font-weight:bold;
+    margin-bottom:25px;
+    color:#38bdf8;
+    letter-spacing:2px;
+}
+
+/* Countdown */
+
+.countdown{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    margin-bottom:30px;
+    flex-wrap:wrap;
+}
+
+.time-box{
+    background:rgba(255,255,255,0.08);
+    padding:15px;
+    width:90px;
+    border-radius:15px;
+}
+
+.time-box h2{
+    font-size:2rem;
+    color:#ffffff;
+}
+
+.time-box p{
+    font-size:0.9rem;
+    color:#cbd5e1;
+}
+
+/* Status */
+
+.status{
+    margin-bottom:25px;
+    font-size:1.1rem;
+    color:#f1f5f9;
+}
+
+/* Button */
+
+.start-btn{
+    display:inline-block;
+    padding:15px 35px;
+    border:none;
+    border-radius:50px;
+    background:#06b6d4;
+    color:white;
+    font-size:1rem;
+    text-decoration:none;
+    font-weight:bold;
+    transition:0.3s;
+    box-shadow:0 0 20px rgba(6,182,212,0.4);
+}
+
+.start-btn:hover{
+    transform:scale(1.05);
+    background:#0891b2;
+}
+
+/* Disabled Button */
+
+.disabled{
+    background:gray;
+    pointer-events:none;
+    box-shadow:none;
+}
+
+/* Responsive */
+
+@media(max-width:500px){
+
+    h1{
+        font-size:1.5rem;
+    }
+
+    .live-clock{
+        font-size:2rem;
+    }
+
+    .time-box{
+        width:75px;
+        padding:10px;
+    }
+
+    .time-box h2{
+        font-size:1.5rem;
+    }
+
+}
+
 </style>
-
 </head>
+
 <body>
 
-<h2>Sudoku</h2>
-<button onclick="checkSolution()">Check Solution</button>
+<div class="container">
 
-<table><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="7" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="3" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="6" disabled>
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="4" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="6" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="5" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="9" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="1" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="8" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="3" disabled>
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="7" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="3" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="2" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="4" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="9" disabled>
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="4" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="1" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="" >
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="1" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="7" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="4" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="8" disabled>
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="5" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="2" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="8" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="1" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="" >
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="5" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="4" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="7" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="6" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="3" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:3px solid black;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="1" disabled>
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="3" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="8" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="2" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="4" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="9" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:1px solid #999;
-border-right:3px solid black;
-">
-<input value="" >
-</td></tr><tr>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="6" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="9" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="7" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="5" disabled>
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:3px solid black;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:3px solid black;
-border-right:1px solid #999;
-">
-<input value="" >
-</td>
-<td style="
-width:40px;
-height:40px;
-padding:0;
-border-top:1px solid #999;
-border-left:1px solid #999;
-border-bottom:3px solid black;
-border-right:3px solid black;
-">
-<input value="2" disabled>
-</td></tr></table>
+    <h1>Sunday Online Test</h1>
+
+    <p class="subtitle">
+        Test starts every Sunday at 12:00 PM
+    </p>
+
+    <!-- Live Clock -->
+    <div class="live-clock" id="liveClock">
+        00:00:00
+    </div>
+
+    <!-- Countdown -->
+    <div class="countdown">
+
+        <div class="time-box">
+            <h2 id="days">00</h2>
+            <p>Days</p>
+        </div>
+
+        <div class="time-box">
+            <h2 id="hours">00</h2>
+            <p>Hours</p>
+        </div>
+
+        <div class="time-box">
+            <h2 id="minutes">00</h2>
+            <p>Minutes</p>
+        </div>
+
+        <div class="time-box">
+            <h2 id="seconds">00</h2>
+            <p>Seconds</p>
+        </div>
+
+    </div>
+
+    <!-- Status -->
+    <div class="status" id="statusText">
+        Please wait for Sunday 12:00 PM
+    </div>
+
+    <!-- Start Button -->
+    <a href="test.html" class="start-btn disabled" id="startBtn">
+        Test Locked
+    </a>
+
+</div>
 
 <script>
-function getBoardFromUI() {
-  let table = document.querySelector("table");
-  let board = [];
 
-  for (let i = 0; i < 9; i++) {
-    let row = [];
-    for (let j = 0; j < 9; j++) {
-      let val = table.rows[i].cells[j].firstChild.value;
-      row.push(val === "" ? 0 : parseInt(val));
+/* Live Clock */
+
+function updateClock(){
+
+    const now = new Date();
+
+    let h = now.getHours().toString().padStart(2,'0');
+    let m = now.getMinutes().toString().padStart(2,'0');
+    let s = now.getSeconds().toString().padStart(2,'0');
+
+    document.getElementById("liveClock").innerHTML =
+        `${h}:${m}:${s}`;
+
+}
+
+setInterval(updateClock,1000);
+updateClock();
+
+/* Countdown + Test Unlock */
+
+function updateCountdown(){
+
+    const now = new Date();
+
+    const currentDay = now.getDay(); 
+    // Sunday = 0
+
+    let target = new Date(now);
+
+    target.setHours(12,0,0,0);
+
+    // If today is Sunday and before 12 PM
+    if(currentDay === 0 && now < target){
+
+        // countdown to today 12 PM
+
     }
-    board.push(row);
-  }
-  return board;
-}
 
-function isValidGroup(arr) {
-  let set = new Set(arr);
-  return set.size === 9 && !arr.includes(0);
-}
+    // If today is Sunday and after 12 PM
+    else if(currentDay === 0 && now >= target){
 
-function checkSolution() {
-  let board = getBoardFromUI();
-
-  for (let i = 0; i < 9; i++) {
-    if (!isValidGroup(board[i])) {
-      alert("Row " + (i+1) + " incorrect");
-      return;
+        unlockTest();
+        return;
     }
-  }
 
-  alert("Correct Sudoku!");
+    // Other days
+    else{
+
+        let daysUntilSunday = (7 - currentDay) % 7;
+
+        if(daysUntilSunday === 0){
+            daysUntilSunday = 7;
+        }
+
+        target.setDate(now.getDate() + daysUntilSunday);
+    }
+
+    const diff = target - now;
+
+    const days = Math.floor(diff / (1000*60*60*24));
+
+    const hours = Math.floor(
+        (diff % (1000*60*60*24)) / (1000*60*60)
+    );
+
+    const minutes = Math.floor(
+        (diff % (1000*60*60)) / (1000*60)
+    );
+
+    const seconds = Math.floor(
+        (diff % (1000*60)) / 1000
+    );
+
+    document.getElementById("days").innerHTML =
+        days.toString().padStart(2,'0');
+
+    document.getElementById("hours").innerHTML =
+        hours.toString().padStart(2,'0');
+
+    document.getElementById("minutes").innerHTML =
+        minutes.toString().padStart(2,'0');
+
+    document.getElementById("seconds").innerHTML =
+        seconds.toString().padStart(2,'0');
+
 }
+
+function unlockTest(){
+
+    document.getElementById("statusText").innerHTML =
+        "Test is Live Now 🚀";
+
+    const btn = document.getElementById("startBtn");
+
+    btn.innerHTML = "Start Test";
+
+    btn.classList.remove("disabled");
+
+    /* Hide Countdown */
+
+    document.querySelector(".countdown").style.display = "none";
+
+}
+
+setInterval(updateCountdown,1000);
+updateCountdown();
+
 </script>
 
 </body>

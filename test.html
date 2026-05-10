@@ -1,0 +1,804 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EnglishGrammarMiniTest5</title>
+
+<style>
+body { font-family: Arial; margin:0; background:#f4f6f9; }
+
+/* LOGIN CENTER */
+#loginPage {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.login-box {
+  background:white;
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:320px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.2);
+  text-align:center;
+}
+
+.login-box input {
+  width:100%;
+  padding:10px;
+  margin:8px 0;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+
+#header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+
+  /* Glass effect */
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.7);
+
+  /* Shadow */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.login-box button {
+  width:100%;
+  padding:10px;
+  background:#007bff;
+  color:white;
+  border:none;
+  border-radius:6px;
+}
+
+/* QUIZ */
+#quizPage { padding:15px; }
+
+.question {
+  margin-bottom:15px;
+  padding:10px;
+  border-radius:8px;
+  background:white;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.correct { color:green; font-weight:bold; }
+.wrong { color:red; font-weight:bold; }
+
+#userInfo { font-weight:bold; margin-bottom:5px; }
+#loginCountBox { margin-bottom:10px; }
+
+@media(min-width:600px){
+  .question{ max-width:600px; margin:10px auto; }
+}
+
+</style>
+  <script>
+
+const now = new Date();
+
+const day = now.getDay();
+
+const unlockTime = new Date(now);
+
+unlockTime.setHours(12,0,0,0);
+
+if(day !== 0 || now < unlockTime){
+
+    window.location.href = "index.html";
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2 style="text-align:center;">EnglishGrammarMiniTest5</h2>
+
+<!-- LOGIN -->
+<div id="loginPage">
+  <div class="login-box">
+    <h3>🔐 Login</h3>
+    <input id="username" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+    <p id="error" style="color:red;"></p>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="quizPage" style="display:none;">
+
+<div id="header">
+
+  <div id="userInfo"></div>
+  <div id="loginCountBox"></div>
+
+  <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+</div>
+<br><br>
+
+<form id="quizForm" onsubmit="event.preventDefault(); submitQuiz();">
+
+
+<div class="question">
+<p><b>Q1:</b> Q1. (निर्देश: सही उत्तर चुनिए।) "dance" का past form क्या है? / What is the past form of "dance"?</p>
+
+<label>
+<input type="radio" name="q0" value="0">
+danced
+</label><br>
+<label>
+<input type="radio" name="q0" value="1">
+danced
+</label><br>
+<label>
+<input type="radio" name="q0" value="2">
+dancing
+</label><br>
+<label>
+<input type="radio" name="q0" value="3">
+dances
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q2:</b> Q2. (निर्देश: सही उत्तर चुनिए।) "carry" का past form क्या है?</p>
+
+<label>
+<input type="radio" name="q1" value="0">
+carryed
+</label><br>
+<label>
+<input type="radio" name="q1" value="1">
+carried
+</label><br>
+<label>
+<input type="radio" name="q1" value="2">
+carring
+</label><br>
+<label>
+<input type="radio" name="q1" value="3">
+carries
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q3:</b> Q3. (निर्देश: सही उत्तर चुनिए।) He ____ (wash) his hands daily.</p>
+
+<label>
+<input type="radio" name="q2" value="0">
+wash
+</label><br>
+<label>
+<input type="radio" name="q2" value="1">
+washs
+</label><br>
+<label>
+<input type="radio" name="q2" value="2">
+washes
+</label><br>
+<label>
+<input type="radio" name="q2" value="3">
+washed
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q4:</b> Q4. (निर्देश: सही उत्तर चुनिए।) My mother ____ (teach) English.</p>
+
+<label>
+<input type="radio" name="q3" value="0">
+teach
+</label><br>
+<label>
+<input type="radio" name="q3" value="1">
+teaches
+</label><br>
+<label>
+<input type="radio" name="q3" value="2">
+teaching
+</label><br>
+<label>
+<input type="radio" name="q3" value="3">
+teached
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q5:</b> Q5. (निर्देश: सही उत्तर चुनिए।) "sit" का ing form क्या है?</p>
+
+<label>
+<input type="radio" name="q4" value="0">
+siting
+</label><br>
+<label>
+<input type="radio" name="q4" value="1">
+sitting
+</label><br>
+<label>
+<input type="radio" name="q4" value="2">
+sitted
+</label><br>
+<label>
+<input type="radio" name="q4" value="3">
+sits
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q6:</b> Q6. (निर्देश: सही उत्तर चुनिए।) "write" का ing form क्या है?</p>
+
+<label>
+<input type="radio" name="q5" value="0">
+writting
+</label><br>
+<label>
+<input type="radio" name="q5" value="1">
+writeing
+</label><br>
+<label>
+<input type="radio" name="q5" value="2">
+writing
+</label><br>
+<label>
+<input type="radio" name="q5" value="3">
+writed
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q7:</b> Q7. (निर्देश: सही वर्तनी चुनिए।) December</p>
+
+<label>
+<input type="radio" name="q6" value="0">
+Decembar
+</label><br>
+<label>
+<input type="radio" name="q6" value="1">
+December
+</label><br>
+<label>
+<input type="radio" name="q6" value="2">
+Decmber
+</label><br>
+<label>
+<input type="radio" name="q6" value="3">
+Decemeber
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q8:</b> Q8. (निर्देश: सही वर्तनी चुनिए।) August</p>
+
+<label>
+<input type="radio" name="q7" value="0">
+Augest
+</label><br>
+<label>
+<input type="radio" name="q7" value="1">
+Augusst
+</label><br>
+<label>
+<input type="radio" name="q7" value="2">
+August
+</label><br>
+<label>
+<input type="radio" name="q7" value="3">
+Agust
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q9:</b> Q9. (निर्देश: गलत वर्तनी चुनिए।) Days name</p>
+
+<label>
+<input type="radio" name="q8" value="0">
+Monday
+</label><br>
+<label>
+<input type="radio" name="q8" value="1">
+Wensday
+</label><br>
+<label>
+<input type="radio" name="q8" value="2">
+Friday
+</label><br>
+<label>
+<input type="radio" name="q8" value="3">
+Sunday
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q10:</b> Q10. (निर्देश: गलत वर्तनी चुनिए।) Days name</p>
+
+<label>
+<input type="radio" name="q9" value="0">
+Thursday
+</label><br>
+<label>
+<input type="radio" name="q9" value="1">
+Tuesday
+</label><br>
+<label>
+<input type="radio" name="q9" value="2">
+Saturdai
+</label><br>
+<label>
+<input type="radio" name="q9" value="3">
+Wednesday
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q11:</b> Q11. (निर्देश: सही वर्तनी चुनिए।) Colour name</p>
+
+<label>
+<input type="radio" name="q10" value="0">
+Purple
+</label><br>
+<label>
+<input type="radio" name="q10" value="1">
+Purpel
+</label><br>
+<label>
+<input type="radio" name="q10" value="2">
+Purpple
+</label><br>
+<label>
+<input type="radio" name="q10" value="3">
+Perple
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q12:</b> Q12. (निर्देश: सही वर्तनी चुनिए।) Colour name</p>
+
+<label>
+<input type="radio" name="q11" value="0">
+Orange
+</label><br>
+<label>
+<input type="radio" name="q11" value="1">
+Oranj
+</label><br>
+<label>
+<input type="radio" name="q11" value="2">
+Orrange
+</label><br>
+<label>
+<input type="radio" name="q11" value="3">
+Orang
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q13:</b> Q13. (निर्देश: सही उत्तर चुनिए।) "Brother's son" is:</p>
+
+<label>
+<input type="radio" name="q12" value="0">
+Uncle
+</label><br>
+<label>
+<input type="radio" name="q12" value="1">
+Nephew
+</label><br>
+<label>
+<input type="radio" name="q12" value="2">
+Cousin
+</label><br>
+<label>
+<input type="radio" name="q12" value="3">
+Aunt
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q14:</b> Q14. (निर्देश: सही उत्तर चुनिए।) "Sister's daughter" is:</p>
+
+<label>
+<input type="radio" name="q13" value="0">
+Niece
+</label><br>
+<label>
+<input type="radio" name="q13" value="1">
+Aunt
+</label><br>
+<label>
+<input type="radio" name="q13" value="2">
+Cousin
+</label><br>
+<label>
+<input type="radio" name="q13" value="3">
+Mother
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q15:</b> Q15. (निर्देश: सही उत्तर चुनिए।) V2 of "come" is:</p>
+
+<label>
+<input type="radio" name="q14" value="0">
+came
+</label><br>
+<label>
+<input type="radio" name="q14" value="1">
+come
+</label><br>
+<label>
+<input type="radio" name="q14" value="2">
+coming
+</label><br>
+<label>
+<input type="radio" name="q14" value="3">
+comes
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q16:</b> Q16. (निर्देश: सही उत्तर चुनिए।) V3 of "break" is:</p>
+
+<label>
+<input type="radio" name="q15" value="0">
+broke
+</label><br>
+<label>
+<input type="radio" name="q15" value="1">
+broken
+</label><br>
+<label>
+<input type="radio" name="q15" value="2">
+breaking
+</label><br>
+<label>
+<input type="radio" name="q15" value="3">
+breaks
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q17:</b> Q17. (निर्देश: सही उत्तर चुनिए।) V2 of "write" is:</p>
+
+<label>
+<input type="radio" name="q16" value="0">
+writing
+</label><br>
+<label>
+<input type="radio" name="q16" value="1">
+written
+</label><br>
+<label>
+<input type="radio" name="q16" value="2">
+wrote
+</label><br>
+<label>
+<input type="radio" name="q16" value="3">
+writes
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q18:</b> Q18. (निर्देश: सही उत्तर चुनिए।) V3 of "drink" is:</p>
+
+<label>
+<input type="radio" name="q17" value="0">
+drank
+</label><br>
+<label>
+<input type="radio" name="q17" value="1">
+drunk
+</label><br>
+<label>
+<input type="radio" name="q17" value="2">
+drinking
+</label><br>
+<label>
+<input type="radio" name="q17" value="3">
+drinks
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q19:</b> Q19. (निर्देश: सही उत्तर चुनिए।) V2 of "give" is:</p>
+
+<label>
+<input type="radio" name="q18" value="0">
+given
+</label><br>
+<label>
+<input type="radio" name="q18" value="1">
+gave
+</label><br>
+<label>
+<input type="radio" name="q18" value="2">
+giving
+</label><br>
+<label>
+<input type="radio" name="q18" value="3">
+gives
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q20:</b> Q20. (निर्देश: सही उत्तर चुनिए।) Cat की आवाज क्या होती है? / Sound of cat:</p>
+
+<label>
+<input type="radio" name="q19" value="0">
+Moo
+</label><br>
+<label>
+<input type="radio" name="q19" value="1">
+Bark
+</label><br>
+<label>
+<input type="radio" name="q19" value="2">
+Meow
+</label><br>
+<label>
+<input type="radio" name="q19" value="3">
+Roar
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q21:</b> Q21. (निर्देश: सही उत्तर चुनिए।) Birds का घर क्या होता है? / House of birds:</p>
+
+<label>
+<input type="radio" name="q20" value="0">
+Stable
+</label><br>
+<label>
+<input type="radio" name="q20" value="1">
+Nest
+</label><br>
+<label>
+<input type="radio" name="q20" value="2">
+Den
+</label><br>
+<label>
+<input type="radio" name="q20" value="3">
+Cage
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q22:</b> Q22. (निर्देश: सही उत्तर चुनिए।) Sheep का group क्या कहलाता है? / Group of sheep:</p>
+
+<label>
+<input type="radio" name="q21" value="0">
+Flock
+</label><br>
+<label>
+<input type="radio" name="q21" value="1">
+Pride
+</label><br>
+<label>
+<input type="radio" name="q21" value="2">
+Pack
+</label><br>
+<label>
+<input type="radio" name="q21" value="3">
+School
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q23:</b> Q23. (निर्देश: सही उत्तर चुनिए।) "Ceiling" का हिंदी अर्थ क्या है? / What is the meaning of ceiling in Hindi?</p>
+
+<label>
+<input type="radio" name="q22" value="0">
+Floor
+</label><br>
+<label>
+<input type="radio" name="q22" value="1">
+दीवार
+</label><br>
+<label>
+<input type="radio" name="q22" value="2">
+छत
+</label><br>
+<label>
+<input type="radio" name="q22" value="3">
+दरवाजा
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q24:</b> Q24. (निर्देश: सही उत्तर चुनिए।) "भाई" को English में क्या कहते हैं? / What is the English word for "भाई"?</p>
+
+<label>
+<input type="radio" name="q23" value="0">
+Sister
+</label><br>
+<label>
+<input type="radio" name="q23" value="1">
+Uncle
+</label><br>
+<label>
+<input type="radio" name="q23" value="2">
+Brother
+</label><br>
+<label>
+<input type="radio" name="q23" value="3">
+Father
+</label><br>
+</div>
+
+<div class="question">
+<p><b>Q25:</b> Q25. (निर्देश: सही उत्तर चुनिए।) एक सप्ताह में कितने दिन होते हैं? / How many days are there in one week?</p>
+
+<label>
+<input type="radio" name="q24" value="0">
+5
+</label><br>
+<label>
+<input type="radio" name="q24" value="1">
+6
+</label><br>
+<label>
+<input type="radio" name="q24" value="2">
+7
+</label><br>
+<label>
+<input type="radio" name="q24" value="3">
+8
+</label><br>
+</div>
+
+
+<button type="submit">Submit</button>
+
+</form>
+
+</div>
+
+<div id="result" style="text-align:center;font-weight:bold;margin-top:15px;"></div>
+
+<script>
+
+const quizKey="EnglishGrammarMiniTest5";
+const users=[{"username":"JKP000111","password":"ramji1234","name":"RAMJI PATEL"},{"username":"JKP000112","password":"shivi9163","name":"SHIVI PATEL"},{"username":"JKP000113","password":"sadhna0000","name":"SADHNA KUSHWAHA"},{"username":"JKP000114","password":"shristi165","name":"SHRISTI KUSHWAHA"},{"username":"JKP000115","password":"naman0091","name":"NAMAN PATEL"},{"username":"JKP000116","password":"krish1011","name":"KRISH KUSHWAHA"}];
+const answers=[0,1,2,1,1,2,1,2,1,2,0,0,1,0,0,1,2,1,1,2,1,0,2,2,2];
+
+const currentUser=sessionStorage.getItem(quizKey+"_user");
+
+if(currentUser){
+  loginPage.style.display="none";
+  quizPage.style.display="block";
+  showUserInfo(currentUser);
+  handleLoginCount(currentUser);
+  checkPrevious();
+}
+
+/* LOGIN */
+function login(){
+const u=username.value.trim();
+const p=password.value.trim();
+
+const valid=users.find(x=>x.username===u && x.password===p);
+
+if(!valid){ error.innerText="Invalid login"; return; }
+
+sessionStorage.setItem(quizKey+"_user",u);
+
+loginPage.style.display="none";
+quizPage.style.display="block";
+
+showUserInfo(u);
+handleLoginCount(u);
+checkPrevious();
+}
+
+/* USER INFO */
+function showUserInfo(u){
+const user=users.find(x=>x.username===u);
+if(user){
+userInfo.innerHTML="👤 "+user.name+" ("+user.username+")";
+}
+}
+
+/* LOGIN COUNT */
+function handleLoginCount(user){
+
+const submitted=localStorage.getItem(quizKey+"_submitted_"+user);
+
+let count=parseInt(localStorage.getItem(quizKey+"_loginCount_"+user)||"0");
+
+if(!submitted){
+  count++;
+  localStorage.setItem(quizKey+"_loginCount_"+user,count);
+}
+
+loginCountBox.innerHTML="🔁 Login Count: "+count;
+}
+
+/* LOGOUT */
+function logout(){
+sessionStorage.removeItem(quizKey+"_user");
+location.reload();
+}
+
+/* CHECK PREVIOUS */
+function checkPrevious(){
+const user=sessionStorage.getItem(quizKey+"_user");
+if(localStorage.getItem(quizKey+"_submitted_"+user)){
+  restoreAnswers();
+}
+}
+
+/* RESTORE */
+function restoreAnswers(){
+const user=sessionStorage.getItem(quizKey+"_user");
+const saved=JSON.parse(localStorage.getItem(quizKey+"_answers_"+user)||"[]");
+
+let score=0;
+
+answers.forEach((ans,i)=>{
+const opts=document.getElementsByName("q"+i);
+const val=saved[i];
+
+if(opts[val]) opts[val].checked=true;
+
+if(val===ans){
+  opts[ans].parentElement.classList.add("correct");
+  score++;
+}else{
+  opts[ans].parentElement.classList.add("correct");
+  if(opts[val]) opts[val].parentElement.classList.add("wrong");
+}
+});
+
+result.innerText="🎯 Score: "+score+"/"+answers.length;
+
+document.querySelectorAll("input[type=radio]").forEach(el=>el.disabled=true);
+
+logoutBtn.style.display="inline-block";
+}
+
+/* SUBMIT */
+function submitQuiz(){
+const user=sessionStorage.getItem(quizKey+"_user");
+
+if(!user) return;
+if(localStorage.getItem(quizKey+"_submitted_"+user)) return;
+
+let score=0, userAns=[];
+
+answers.forEach((ans,i)=>{
+const sel=document.querySelector('input[name="q'+i+'"]:checked');
+
+if(sel){
+const val=parseInt(sel.value);
+userAns[i]=val;
+
+if(val===ans){
+  score++;
+  sel.parentElement.classList.add("correct");
+}else{
+  sel.parentElement.classList.add("wrong");
+}
+}
+});
+
+localStorage.setItem(quizKey+"_submitted_"+user,"yes");
+localStorage.setItem(quizKey+"_answers_"+user,JSON.stringify(userAns));
+
+result.innerText="🎯 Score: "+score+"/"+answers.length;
+
+document.querySelectorAll("input[type=radio]").forEach(el=>el.disabled=true);
+
+logoutBtn.style.display="inline-block";
+}
+
+</script>
+
+</body>
+</html>
