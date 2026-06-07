@@ -1,80 +1,364 @@
 
-<!DOCTYPE html>
-<html>
+  <!DOCTYPE html>
+<html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EnglishGrammarMiniTest8</title>
+
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0">
+
+<title>EnglishGrammarTest3</title>
 
 <style>
-body { font-family: Arial; margin:0; background:#f4f6f9; }
 
-/* LOGIN CENTER */
-#loginPage {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-.login-box {
-  background:white;
-  padding:25px;
-  border-radius:12px;
-  width:90%;
-  max-width:320px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.2);
-  text-align:center;
+body{
+font-family:'Segoe UI',sans-serif;
+background:
+linear-gradient(
+135deg,
+#0f172a,
+#111827,
+#1e293b
+);
+min-height:100vh;
+color:white;
+overflow-x:hidden;
 }
 
-.login-box input {
-  width:100%;
-  padding:10px;
-  margin:8px 0;
-  border-radius:6px;
-  border:1px solid #ccc;
+/* BG */
+
+body::before{
+content:'';
+position:fixed;
+width:400px;
+height:400px;
+background:
+rgba(59,130,246,0.15);
+border-radius:50%;
+top:-150px;
+left:-100px;
+filter:blur(80px);
+z-index:-1;
 }
 
-#header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-
-  /* Glass effect */
-  backdrop-filter: blur(10px);
-  background: rgba(255, 255, 255, 0.7);
-
-  /* Shadow */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-.login-box button {
-  width:100%;
-  padding:10px;
-  background:#007bff;
-  color:white;
-  border:none;
-  border-radius:6px;
+body::after{
+content:'';
+position:fixed;
+width:400px;
+height:400px;
+background:
+rgba(168,85,247,0.15);
+border-radius:50%;
+bottom:-150px;
+right:-100px;
+filter:blur(80px);
+z-index:-1;
 }
 
-/* QUIZ */
-#quizPage { padding:15px; }
-
-.question {
-  margin-bottom:15px;
-  padding:10px;
-  border-radius:8px;
-  background:white;
-  box-shadow:0 2px 10px rgba(0,0,0,0.1);
+h2{
+text-align:center;
+padding:18px;
+font-size:2rem;
 }
 
-.correct { color:green; font-weight:bold; }
-.wrong { color:red; font-weight:bold; }
+/* LOGIN */
 
-#userInfo { font-weight:bold; margin-bottom:5px; }
-#loginCountBox { margin-bottom:10px; }
+#loginPage{
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
 
-@media(min-width:600px){
-  .question{ max-width:600px; margin:10px auto; }
+.login-box{
+width:100%;
+max-width:380px;
+background:
+rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.1);
+backdrop-filter:blur(14px);
+border-radius:24px;
+padding:35px 30px;
+animation:fadeUp 0.5s ease;
+}
+
+.login-box h3{
+text-align:center;
+margin-bottom:20px;
+}
+
+.login-box input{
+width:100%;
+padding:14px;
+margin:10px 0;
+border:none;
+outline:none;
+border-radius:14px;
+background:
+rgba(255,255,255,0.08);
+color:white;
+}
+
+button{
+padding:14px 24px;
+border:none;
+border-radius:14px;
+background:
+linear-gradient(
+135deg,
+#2563eb,
+#7c3aed
+);
+color:white;
+cursor:pointer;
+font-weight:600;
+transition:0.25s;
+}
+
+button:hover{
+transform:
+translateY(-2px)
+scale(1.02);
+}
+
+button:disabled{
+opacity:0.5;
+cursor:not-allowed;
+}
+
+.login-box button{
+width:100%;
+margin-top:15px;
+}
+
+#error{
+color:#f87171;
+margin-top:12px;
+text-align:center;
+}
+
+/* HEADER */
+
+#header{
+position:sticky;
+top:0;
+z-index:1000;
+background:
+rgba(15,23,42,0.8);
+backdrop-filter:blur(12px);
+padding:14px 20px;
+border-bottom:
+1px solid rgba(255,255,255,0.08);
+}
+
+.top-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+flex-wrap:wrap;
+gap:10px;
+}
+
+#timer{
+font-size:1.1rem;
+font-weight:bold;
+color:#facc15;
+}
+
+/* PROGRESS */
+
+#progressContainer{
+width:100%;
+height:12px;
+background:
+rgba(255,255,255,0.08);
+border-radius:20px;
+margin-top:14px;
+overflow:hidden;
+}
+
+#progressBar{
+height:100%;
+width:0%;
+background:
+linear-gradient(
+90deg,
+#22c55e,
+#3b82f6
+);
+transition:0.3s;
+}
+
+/* LAYOUT */
+
+#quizPage{
+display:none;
+}
+
+.main-layout{
+display:grid;
+grid-template-columns:
+280px 1fr;
+gap:20px;
+padding:20px;
+}
+
+/* PALETTE */
+
+#palette{
+background:
+rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.08);
+border-radius:24px;
+padding:20px;
+height:fit-content;
+position:sticky;
+top:120px;
+}
+
+.palette-grid{
+display:grid;
+grid-template-columns:
+repeat(5,1fr);
+gap:10px;
+margin-top:15px;
+}
+
+.palette-btn{
+width:42px;
+height:42px;
+border-radius:12px;
+border:none;
+cursor:pointer;
+font-weight:bold;
+background:#475569;
+color:white;
+}
+
+.palette-btn.visited{
+background:#2563eb;
+}
+
+.palette-btn.answered{
+background:#16a34a;
+}
+
+.palette-btn.current{
+outline:3px solid white;
+}
+
+/* QUESTION */
+
+.question-card{
+background:
+rgba(255,255,255,0.08);
+border:
+1px solid rgba(255,255,255,0.08);
+border-radius:24px;
+padding:25px;
+animation:fadeUp 0.3s ease;
+}
+
+.question-title{
+font-size:1.2rem;
+margin-bottom:20px;
+line-height:1.6;
+}
+
+.option{
+display:flex;
+align-items:center;
+gap:12px;
+padding:16px;
+margin-bottom:14px;
+border-radius:14px;
+background:
+rgba(255,255,255,0.05);
+cursor:pointer;
+transition:0.25s;
+}
+
+.option:hover{
+background:
+rgba(255,255,255,0.12);
+transform:translateX(4px);
+}
+
+.option input{
+transform:scale(1.2);
+}
+
+.correct{
+background:
+rgba(34,197,94,0.3)
+!important;
+}
+
+.wrong{
+background:
+rgba(239,68,68,0.3)
+!important;
+}
+
+/* NAVIGATION */
+
+.nav-buttons{
+display:flex;
+justify-content:space-between;
+margin-top:25px;
+gap:10px;
+}
+
+#submitBtn{
+width:100%;
+margin-top:20px;
+}
+
+#result{
+margin-top:25px;
+font-size:1.4rem;
+text-align:center;
+font-weight:bold;
+}
+
+/* ANIMATION */
+
+@keyframes fadeUp{
+
+from{
+opacity:0;
+transform:translateY(15px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@media(max-width:900px){
+
+.main-layout{
+grid-template-columns:1fr;
+}
+
+#palette{
+position:static;
+}
+
 }
 
 </style>
@@ -83,705 +367,946 @@ body { font-family: Arial; margin:0; background:#f4f6f9; }
 
 <body>
 
-<h2 style="text-align:center;">EnglishGrammarMiniTest8</h2>
+<h2>
+
+📝 EnglishGrammarTest3
+
+</h2>
 
 <!-- LOGIN -->
+
 <div id="loginPage">
-  <div class="login-box">
-    <h3>🔐 Login</h3>
-    <input id="username" placeholder="Username">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
-    <p id="error" style="color:red;"></p>
-  </div>
+
+<div class="login-box">
+
+<h3>
+🔐 Login
+</h3>
+
+<input
+id="username"
+placeholder="Username"
+>
+
+<input
+id="password"
+type="password"
+placeholder="Password"
+>
+
+<button onclick="login()">
+
+Start Test
+
+</button>
+
+<p id="error"></p>
+
+</div>
+
 </div>
 
 <!-- QUIZ -->
-<div id="quizPage" style="display:none;">
+
+<div id="quizPage">
 
 <div id="header">
 
-  <div id="userInfo"></div>
-  <div id="loginCountBox"></div>
+<div class="top-row">
 
-  <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
-</div>
-<br><br>
+<div id="userInfo"></div>
 
-<form id="quizForm" onsubmit="event.preventDefault(); submitQuiz();">
+<div id="timer">
 
-
-<div class="question">
-<p><b>Q1:</b> Q1. (निर्देश: सही उत्तर चुनिए।) English alphabet में कुल कितने letters होते हैं? / How many letters are there in the English alphabet?</p>
-
-<label>
-<input type="radio" name="q0" value="0">
-24
-</label><br>
-<label>
-<input type="radio" name="q0" value="1">
-25
-</label><br>
-<label>
-<input type="radio" name="q0" value="2">
-26
-</label><br>
-<label>
-<input type="radio" name="q0" value="3">
-27
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q2:</b> Q2. (निर्देश: सही उत्तर चुनिए।) निम्न में से कौन-सा vowel है? / Which of the following is a vowel?</p>
-
-<label>
-<input type="radio" name="q1" value="0">
-B
-</label><br>
-<label>
-<input type="radio" name="q1" value="1">
-D
-</label><br>
-<label>
-<input type="radio" name="q1" value="2">
-E
-</label><br>
-<label>
-<input type="radio" name="q1" value="3">
-K
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q3:</b> Q3. (निर्देश: सही उत्तर चुनिए।) "Ram" किस प्रकार का noun है? / "Ram" is a:</p>
-
-<label>
-<input type="radio" name="q2" value="0">
-Common Noun
-</label><br>
-<label>
-<input type="radio" name="q2" value="1">
-Proper Noun
-</label><br>
-<label>
-<input type="radio" name="q2" value="2">
-Material Noun
-</label><br>
-<label>
-<input type="radio" name="q2" value="3">
-Abstract Noun
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q4:</b> Q4. (निर्देश: सही उत्तर चुनिए।) "Honesty" किस प्रकार का noun है?</p>
-
-<label>
-<input type="radio" name="q3" value="0">
-Proper Noun
-</label><br>
-<label>
-<input type="radio" name="q3" value="1">
-Common Noun
-</label><br>
-<label>
-<input type="radio" name="q3" value="2">
-Abstract Noun
-</label><br>
-<label>
-<input type="radio" name="q3" value="3">
-Material Noun
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q5:</b> Q5. (निर्देश: सही उत्तर चुनिए।) "Gold" किस प्रकार का noun है?</p>
-
-<label>
-<input type="radio" name="q4" value="0">
-Material Noun
-</label><br>
-<label>
-<input type="radio" name="q4" value="1">
-Abstract Noun
-</label><br>
-<label>
-<input type="radio" name="q4" value="2">
-Collective Noun
-</label><br>
-<label>
-<input type="radio" name="q4" value="3">
-Common Noun
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q6:</b> Q6. (निर्देश: सही उत्तर चुनिए।) "Team" किस प्रकार का noun है?</p>
-
-<label>
-<input type="radio" name="q5" value="0">
-Common Noun
-</label><br>
-<label>
-<input type="radio" name="q5" value="1">
-Proper Noun
-</label><br>
-<label>
-<input type="radio" name="q5" value="2">
-Collective Noun
-</label><br>
-<label>
-<input type="radio" name="q5" value="3">
-Material Noun
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q7:</b> Q7. (निर्देश: सही उत्तर चुनिए।) "He" किस प्रकार का word है?</p>
-
-<label>
-<input type="radio" name="q6" value="0">
-Noun
-</label><br>
-<label>
-<input type="radio" name="q6" value="1">
-Pronoun
-</label><br>
-<label>
-<input type="radio" name="q6" value="2">
-Verb
-</label><br>
-<label>
-<input type="radio" name="q6" value="3">
-Adjective
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q8:</b> Q8. (निर्देश: सही उत्तर चुनिए।) "Runs" किस प्रकार का word है?</p>
-
-<label>
-<input type="radio" name="q7" value="0">
-Verb
-</label><br>
-<label>
-<input type="radio" name="q7" value="1">
-Noun
-</label><br>
-<label>
-<input type="radio" name="q7" value="2">
-Pronoun
-</label><br>
-<label>
-<input type="radio" name="q7" value="3">
-Adjective
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q9:</b> Q9. (निर्देश: सही उत्तर चुनिए।) Plural of "baby" is:</p>
-
-<label>
-<input type="radio" name="q8" value="0">
-babys
-</label><br>
-<label>
-<input type="radio" name="q8" value="1">
-babies
-</label><br>
-<label>
-<input type="radio" name="q8" value="2">
-babyes
-</label><br>
-<label>
-<input type="radio" name="q8" value="3">
-babyes
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q10:</b> Q10. (निर्देश: सही उत्तर चुनिए।) Plural of "knife" is:</p>
-
-<label>
-<input type="radio" name="q9" value="0">
-knifes
-</label><br>
-<label>
-<input type="radio" name="q9" value="1">
-knifees
-</label><br>
-<label>
-<input type="radio" name="q9" value="2">
-knives
-</label><br>
-<label>
-<input type="radio" name="q9" value="3">
-knivs
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q11:</b> Q11. (निर्देश: सही उत्तर चुनिए।) Plural of "toy" is:</p>
-
-<label>
-<input type="radio" name="q10" value="0">
-toys
-</label><br>
-<label>
-<input type="radio" name="q10" value="1">
-toies
-</label><br>
-<label>
-<input type="radio" name="q10" value="2">
-toyes
-</label><br>
-<label>
-<input type="radio" name="q10" value="3">
-toyz
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q12:</b> Q12. (निर्देश: सही उत्तर चुनिए।) "come" का ing form क्या है?</p>
-
-<label>
-<input type="radio" name="q11" value="0">
-comeing
-</label><br>
-<label>
-<input type="radio" name="q11" value="1">
-coming
-</label><br>
-<label>
-<input type="radio" name="q11" value="2">
-comming
-</label><br>
-<label>
-<input type="radio" name="q11" value="3">
-comed
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q13:</b> Q13. (निर्देश: सही उत्तर चुनिए।) "tie" का ing form क्या है?</p>
-
-<label>
-<input type="radio" name="q12" value="0">
-tieing
-</label><br>
-<label>
-<input type="radio" name="q12" value="1">
-tiing
-</label><br>
-<label>
-<input type="radio" name="q12" value="2">
-tying
-</label><br>
-<label>
-<input type="radio" name="q12" value="3">
-tied
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q14:</b> Q14. (निर्देश: सही उत्तर चुनिए।) "Run" का V3 form क्या है?</p>
-
-<label>
-<input type="radio" name="q13" value="0">
-Run
-</label><br>
-<label>
-<input type="radio" name="q13" value="1">
-Ran
-</label><br>
-<label>
-<input type="radio" name="q13" value="2">
-Runing
-</label><br>
-<label>
-<input type="radio" name="q13" value="3">
-Runned
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q15:</b> Q15. (निर्देश: सही उत्तर चुनिए।) "try" का past form क्या है?</p>
-
-<label>
-<input type="radio" name="q14" value="0">
-tryed
-</label><br>
-<label>
-<input type="radio" name="q14" value="1">
-tried
-</label><br>
-<label>
-<input type="radio" name="q14" value="2">
-trying
-</label><br>
-<label>
-<input type="radio" name="q14" value="3">
-tries
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q16:</b> Q16. (निर्देश: सही उत्तर चुनिए।) V2 of "speak" is:</p>
-
-<label>
-<input type="radio" name="q15" value="0">
-spoken
-</label><br>
-<label>
-<input type="radio" name="q15" value="1">
-spoke
-</label><br>
-<label>
-<input type="radio" name="q15" value="2">
-speaked
-</label><br>
-<label>
-<input type="radio" name="q15" value="3">
-speaking
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q17:</b> Q17. (निर्देश: सही उत्तर चुनिए।) V3 of "throw" is:</p>
-
-<label>
-<input type="radio" name="q16" value="0">
-threw
-</label><br>
-<label>
-<input type="radio" name="q16" value="1">
-throwed
-</label><br>
-<label>
-<input type="radio" name="q16" value="2">
-thrown
-</label><br>
-<label>
-<input type="radio" name="q16" value="3">
-throwing
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q18:</b> Q18. (निर्देश: सही उत्तर चुनिए।) V2 of "buy" is:</p>
-
-<label>
-<input type="radio" name="q17" value="0">
-buyed
-</label><br>
-<label>
-<input type="radio" name="q17" value="1">
-bought
-</label><br>
-<label>
-<input type="radio" name="q17" value="2">
-buying
-</label><br>
-<label>
-<input type="radio" name="q17" value="3">
-buys
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q19:</b> Q19. (निर्देश: सही उत्तर चुनिए।) V3 of "know" is:</p>
-
-<label>
-<input type="radio" name="q18" value="0">
-knew
-</label><br>
-<label>
-<input type="radio" name="q18" value="1">
-known
-</label><br>
-<label>
-<input type="radio" name="q18" value="2">
-knowing
-</label><br>
-<label>
-<input type="radio" name="q18" value="3">
-knows
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q20:</b> Q20. (निर्देश: सही उत्तर चुनिए।) "There are many students in the class." में real subject क्या है?</p>
-
-<label>
-<input type="radio" name="q19" value="0">
-There
-</label><br>
-<label>
-<input type="radio" name="q19" value="1">
-Class
-</label><br>
-<label>
-<input type="radio" name="q19" value="2">
-Students
-</label><br>
-<label>
-<input type="radio" name="q19" value="3">
-Many students
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q21:</b> Q21. (निर्देश: सही उत्तर चुनिए।) Metro क्या है?</p>
-
-<label>
-<input type="radio" name="q20" value="0">
-Fruit
-</label><br>
-<label>
-<input type="radio" name="q20" value="1">
-Vehicle
-</label><br>
-<label>
-<input type="radio" name="q20" value="2">
-Vegetable
-</label><br>
-<label>
-<input type="radio" name="q20" value="3">
-Building
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q22:</b> Q22. (निर्देश: सही उत्तर चुनिए।) "Papaya" का हिंदी अर्थ क्या है?</p>
-
-<label>
-<input type="radio" name="q21" value="0">
-अमरूद
-</label><br>
-<label>
-<input type="radio" name="q21" value="1">
-पपीता
-</label><br>
-<label>
-<input type="radio" name="q21" value="2">
-अनार
-</label><br>
-<label>
-<input type="radio" name="q21" value="3">
-खरबूजा
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q23:</b> Q23. (निर्देश: सही उत्तर चुनिए।) "Corridor" का हिंदी अर्थ क्या है?</p>
-
-<label>
-<input type="radio" name="q22" value="0">
-बगीचा
-</label><br>
-<label>
-<input type="radio" name="q22" value="1">
-गलियारा
-</label><br>
-<label>
-<input type="radio" name="q22" value="2">
-छत
-</label><br>
-<label>
-<input type="radio" name="q22" value="3">
-फाटक
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q24:</b> Q24. (निर्देश: सही उत्तर चुनिए।) "Nephew" का हिंदी अर्थ क्या है?</p>
-
-<label>
-<input type="radio" name="q23" value="0">
-भतीजा / भांजा
-</label><br>
-<label>
-<input type="radio" name="q23" value="1">
-भतीजी / भांजी
-</label><br>
-<label>
-<input type="radio" name="q23" value="2">
-चाचा
-</label><br>
-<label>
-<input type="radio" name="q23" value="3">
-दादा
-</label><br>
-</div>
-
-<div class="question">
-<p><b>Q25:</b> Q25. (निर्देश: सही उत्तर चुनिए।) "Maroon" किस रंग को कहते हैं?</p>
-
-<label>
-<input type="radio" name="q24" value="0">
-Sky Blue
-</label><br>
-<label>
-<input type="radio" name="q24" value="1">
-Green
-</label><br>
-<label>
-<input type="radio" name="q24" value="2">
-Dark Red
-</label><br>
-<label>
-<input type="radio" name="q24" value="3">
-Yellow
-</label><br>
-</div>
-
-
-<button type="submit">Submit</button>
-
-</form>
+⏳ 25:00
 
 </div>
 
-<div id="result" style="text-align:center;font-weight:bold;margin-top:15px;"></div>
+<div id="loginCountBox"></div>
+
+<button
+id="logoutBtn"
+onclick="logout()"
+style="display:none;"
+>
+
+Logout
+
+</button>
+
+</div>
+
+<div id="progressContainer">
+
+<div id="progressBar"></div>
+
+</div>
+
+</div>
+
+<div class="main-layout">
+
+<!-- PALETTE -->
+
+<div id="palette">
+
+<h3>
+Question Palette
+</h3>
+
+<div
+class="palette-grid"
+id="paletteGrid"
+></div>
+
+</div>
+
+<!-- QUESTION AREA -->
+
+<div>
+
+<div id="questionContainer">
+</div>
+
+<div class="nav-buttons">
+
+<button
+id="prevBtn"
+onclick="prevQuestion()"
+>
+
+⬅ Previous
+
+</button>
+
+<button
+id="nextBtn"
+onclick="nextQuestion()"
+>
+
+Next ➡
+
+</button>
+
+</div>
+
+<button
+id="submitBtn"
+onclick="submitQuiz()"
+>
+
+Submit Quiz
+
+</button>
+
+<div id="result"></div>
+
+</div>
+
+</div>
+
+</div>
 
 <script>
 
-const quizKey="EnglishGrammarMiniTest8";
-const users=[{"username":"JKP000111","password":"ramji1234","name":"RAMJI PATEL"},{"username":"JKP000112","password":"shivi9163","name":"SHIVI PATEL"},{"username":"JKP000113","password":"sadhna0000","name":"SADHNA KUSHWAHA"},{"username":"JKP000114","password":"shristi165","name":"SHRISTI KUSHWAHA"},{"username":"JKP000115","password":"naman0091","name":"NAMAN PATEL"},{"username":"JKP000116","password":"krish1011","name":"KRISH KUSHWAHA"}];
-const answers=[2,2,1,2,0,2,1,0,1,2,0,1,2,0,1,1,2,1,1,3,1,1,1,0,2];
+const quizKey =
+"EnglishGrammarTest3";
 
-const currentUser=sessionStorage.getItem(quizKey+"_user");
+const users =
+[{"username":"JKP000111","password":"ramji1234","name":"RAMJI PATEL"},{"username":"JKP000112","password":"shivi9163","name":"SHIVI PATEL"},{"username":"JKP000113","password":"sadhna0000","name":"SADHNA KUSHWAHA"},{"username":"JKP000114","password":"shristi165","name":"SHRISTI KUSHWAHA"},{"username":"JKP000115","password":"naman0091","name":"NAMAN PATEL"},{"username":"JKP000116","password":"krish1011","name":"KRISH KUSHWAHA"}];
+
+const questions =
+[{"question":"Q1. (निर्देश: सही उत्तर चुनिए।) English alphabet में कितने vowels होते हैं?","options":["4","5","6","7"],"answer":1},{"question":"Q2. (निर्देश: सही उत्तर चुनिए।) इनमें से कौन-सा consonant है?","options":["A","E","I","K"],"answer":3},{"question":"Q3. (निर्देश: सही उत्तर चुनिए।) \"Delhi\" किस प्रकार का noun है?","options":["Common Noun","Proper Noun","Abstract Noun","Material Noun"],"answer":1},{"question":"Q4. (निर्देश: सही उत्तर चुनिए।) \"Love\" किस प्रकार का noun है?","options":["Proper Noun","Common Noun","Abstract Noun","Material Noun"],"answer":2},{"question":"Q5. (निर्देश: सही उत्तर चुनिए।) \"Milk\" किस प्रकार का noun है?","options":["Collective Noun","Material Noun","Proper Noun","Abstract Noun"],"answer":1},{"question":"Q6. (निर्देश: सही उत्तर चुनिए।) \"Army\" किस प्रकार का noun है?","options":["Common Noun","Material Noun","Collective Noun","Proper Noun"],"answer":2},{"question":"Q7. (निर्देश: सही उत्तर चुनिए।) \"She\" किस प्रकार का word है?","options":["Verb","Pronoun","Noun","Adjective"],"answer":1},{"question":"Q8. (निर्देश: सही उत्तर चुनिए।) \"Happy\" किस प्रकार का word है?","options":["Adjective","Noun","Pronoun","Verb"],"answer":0},{"question":"Q9. (निर्देश: सही उत्तर चुनिए।) Plural of \"city\" is:","options":["citys","cities","cityes","citis"],"answer":1},{"question":"Q10. (निर्देश: सही उत्तर चुनिए।) Plural of \"bus\" is:","options":["buss","buses","buseses","busis"],"answer":1},{"question":"Q11. (निर्देश: सही उत्तर चुनिए।) Plural of \"wolf\" is:","options":["wolfs","wolfes","wolves","wolvez"],"answer":2},{"question":"Q12. (निर्देश: सही उत्तर चुनिए।) Plural of \"child\" is:","options":["childs","children","childes","childrens"],"answer":1},{"question":"Q13. (निर्देश: सही उत्तर चुनिए।) \"write\" का ing form क्या है?","options":["writeing","writting","writing","writed"],"answer":2},{"question":"Q14. (निर्देश: सही उत्तर चुनिए।) \"run\" का ing form क्या है?","options":["runing","running","runned","runs"],"answer":1},{"question":"Q15. (निर्देश: सही उत्तर चुनिए।) \"die\" का ing form क्या है?","options":["dieing","dying","diing","died"],"answer":1},{"question":"Q16. (निर्देश: सही उत्तर चुनिए।) \"move\" का past form क्या है?","options":["moved","moveed","moving","moves"],"answer":0},{"question":"Q17. (निर्देश: सही उत्तर चुनिए।) \"stop\" का past form क्या है?","options":["stoped","stopped","stopping","stops"],"answer":1},{"question":"Q18. (निर्देश: सही उत्तर चुनिए।) \"cry\" का past form क्या है?","options":["cryed","cried","crying","cries"],"answer":1},{"question":"Q19. (निर्देश: सही उत्तर चुनिए।) V2 of \"go\" is:","options":["gone","went","going","goes"],"answer":1},{"question":"Q20. (निर्देश: सही उत्तर चुनिए।) V3 of \"eat\" is:","options":["ate","eaten","eating","eats"],"answer":1},{"question":"Q21. (निर्देश: सही उत्तर चुनिए।) V2 of \"drink\" is:","options":["drank","drunk","drinking","drinks"],"answer":0},{"question":"Q22. (निर्देश: सही उत्तर चुनिए।) V3 of \"speak\" is:","options":["spoke","spoken","speaking","speaks"],"answer":1},{"question":"Q23. (निर्देश: सही उत्तर चुनिए।) V2 of \"buy\" is:","options":["bought","buyed","buying","buys"],"answer":0},{"question":"Q24. (निर्देश: सही उत्तर चुनिए।) V3 of \"throw\" is:","options":["threw","thrown","throwing","throws"],"answer":1},{"question":"Q25. (निर्देश: सही उत्तर चुनिए।) V2 of \"take\" is:","options":["taken","took","taking","takes"],"answer":1},{"question":"Q26. (निर्देश: सही उत्तर चुनिए।) \"There is a book on the table.\" में real subject क्या है?","options":["There","Table","Book","Is"],"answer":2},{"question":"Q27. (निर्देश: सही उत्तर चुनिए।) \"It is raining.\" में dummy subject कौन है?","options":["raining","is","It","none"],"answer":2},{"question":"Q28. (निर्देश: सही उत्तर चुनिए।) Bus किस category में आता है?","options":["Fruit","Transport","Vegetable","Relative"],"answer":1},{"question":"Q29. (निर्देश: सही उत्तर चुनिए।) Helicopter का हिंदी अर्थ क्या है?","options":["नाव","रेलगाड़ी","हेलिकॉप्टर","जहाज"],"answer":2},{"question":"Q30. (निर्देश: सही उत्तर चुनिए।) Guava का हिंदी अर्थ क्या है?","options":["अमरूद","अनार","आम","संतरा"],"answer":0},{"question":"Q31. (निर्देश: सही उत्तर चुनिए।) Coconut का हिंदी अर्थ क्या है?","options":["लीची","नारियल","अंजीर","खजूर"],"answer":1},{"question":"Q32. (निर्देश: सही उत्तर चुनिए।) Spinach का हिंदी अर्थ क्या है?","options":["पालक","मटर","लौकी","गाजर"],"answer":0},{"question":"Q33. (निर्देश: सही उत्तर चुनिए।) Ladyfinger का हिंदी अर्थ क्या है?","options":["करेला","भिंडी","लौकी","खीरा"],"answer":1},{"question":"Q34. (निर्देश: सही उत्तर चुनिए।) Ceiling का अर्थ क्या है?","options":["Floor","Roof (inside)","Wall","Window"],"answer":1},{"question":"Q35. (निर्देश: सही उत्तर चुनिए।) Balcony का हिंदी अर्थ क्या है?","options":["बालकनी","गलियारा","फाटक","बगीचा"],"answer":0},{"question":"Q36. (निर्देश: सही उत्तर चुनिए।) Brother का हिंदी अर्थ क्या है?","options":["बहन","भाई","पिता","माता"],"answer":1},{"question":"Q37. (निर्देश: सही उत्तर चुनिए।) Aunt का अर्थ क्या है?","options":["चाचा","दादा","चाची/मामी","भाई"],"answer":2},{"question":"Q38. (निर्देश: सही उत्तर चुनिए।) Forty का हिंदी अर्थ क्या है?","options":["तीस","चालीस","पचास","साठ"],"answer":1},{"question":"Q39. (निर्देश: सही उत्तर चुनिए।) Ninety का हिंदी अर्थ क्या है?","options":["सत्तर","अस्सी","नब्बे","सौ"],"answer":2},{"question":"Q40. (निर्देश: सही उत्तर चुनिए।) Tomorrow का हिंदी अर्थ क्या है?","options":["आज","कल (आने वाला)","कल (बीता हुआ)","सप्ताह"],"answer":1},{"question":"Q41. (निर्देश: सही उत्तर चुनिए।) August के बाद कौन-सा महीना आता है?","options":["July","October","September","November"],"answer":2},{"question":"Q42. (निर्देश: सही उत्तर चुनिए।) Tuesday का हिंदी अर्थ क्या है?","options":["सोमवार","मंगलवार","बुधवार","गुरुवार"],"answer":1},{"question":"Q43. (निर्देश: सही उत्तर चुनिए।) Maroon किस रंग को कहते हैं?","options":["Pink","Dark Red","Blue","Green"],"answer":1},{"question":"Q44. (निर्देश: सही उत्तर चुनिए।) Grey का हिंदी अर्थ क्या है?","options":["धूसर","गुलाबी","जामुनी","भूरा"],"answer":0},{"question":"Q45. (निर्देश: सही उत्तर चुनिए।) Group of fish is called:","options":["Herd","Pride","School","Pack"],"answer":2},{"question":"Q46. (निर्देश: सही उत्तर चुनिए।) Group of bees is called:","options":["Swarm","Pack","Flock","Troop"],"answer":0},{"question":"Q47. (निर्देश: सही उत्तर चुनिए।) Sound of horse is:","options":["Moo","Bark","Neigh","Roar"],"answer":2},{"question":"Q48. (निर्देश: सही उत्तर चुनिए।) House of rabbit is:","options":["Den","Burrow","Nest","Stable"],"answer":1},{"question":"Q49. (निर्देश: सही उत्तर चुनिए।) Young one of sheep is:","options":["Kid","Cub","Lamb","Calf"],"answer":2},{"question":"Q50. (निर्देश: सही उत्तर चुनिए।) Young one of cat is:","options":["Puppy","Kitten","Chick","Foal"],"answer":1}];
+
+const answers =
+[1,3,1,2,1,2,1,0,1,1,2,1,2,1,1,0,1,1,1,1,0,1,0,1,1,2,2,1,2,0,1,0,1,1,0,1,2,1,2,1,2,1,1,0,2,0,2,1,2,1];
+  /* ELEMENTS */
+
+const loginPage =
+document.getElementById(
+"loginPage"
+);
+
+const quizPage =
+document.getElementById(
+"quizPage"
+);
+
+const username =
+document.getElementById(
+"username"
+);
+
+const password =
+document.getElementById(
+"password"
+);
+
+const error =
+document.getElementById(
+"error"
+);
+
+const userInfo =
+document.getElementById(
+"userInfo"
+);
+
+const loginCountBox =
+document.getElementById(
+"loginCountBox"
+);
+
+const logoutBtn =
+document.getElementById(
+"logoutBtn"
+);
+
+const result =
+document.getElementById(
+"result"
+);
+
+const questionContainer =
+document.getElementById(
+"questionContainer"
+);
+
+const paletteGrid =
+document.getElementById(
+"paletteGrid"
+);
+
+const progressBar =
+document.getElementById(
+"progressBar"
+);
+
+const timer =
+document.getElementById(
+"timer"
+);
+
+const prevBtn =
+document.getElementById(
+"prevBtn"
+);
+
+const nextBtn =
+document.getElementById(
+"nextBtn"
+);
+
+/* VARIABLES */
+
+let currentQuestion = 0;
+
+let userAnswers = [];
+
+let visitedQuestions = [];
+
+let timeLeft = 25*60;
+
+let timerInterval;
+
+let submitted = false;
+
+const currentUser =
+sessionStorage.getItem(
+quizKey+"_user"
+);
+
+/* AUTO LOGIN */
 
 if(currentUser){
-  loginPage.style.display="none";
-  quizPage.style.display="block";
-  showUserInfo(currentUser);
-  handleLoginCount(currentUser);
-  checkPrevious();
+
+loginPage.style.display =
+"none";
+
+quizPage.style.display =
+"block";
+
+showUserInfo(currentUser);
+
+const alreadySubmitted =
+localStorage.getItem(
+quizKey+
+"_submitted_"+
+currentUser
+);
+
+if(alreadySubmitted){
+
+submitted = true;
+
+restoreSubmittedQuiz();
+
+}else{
+
+handleLoginCount(
+currentUser
+);
+
+startQuiz();
+
+}
+
 }
 
 /* LOGIN */
+
 function login(){
-const u=username.value.trim();
-const p=password.value.trim();
 
-const valid=users.find(x=>x.username===u && x.password===p);
+const u =
+username.value.trim();
 
-if(!valid){ error.innerText="Invalid login"; return; }
+const p =
+password.value.trim();
 
-sessionStorage.setItem(quizKey+"_user",u);
+const valid =
+users.find(
+x=>x.username===u
+&&
+x.password===p
+);
 
-loginPage.style.display="none";
-quizPage.style.display="block";
+if(!valid){
+
+error.innerText =
+"Invalid Login";
+
+return;
+
+}
+
+sessionStorage.setItem(
+quizKey+"_user",
+u
+);
+
+loginPage.style.display =
+"none";
+
+quizPage.style.display =
+"block";
 
 showUserInfo(u);
+
+const alreadySubmitted =
+localStorage.getItem(
+quizKey+
+"_submitted_"+
+u
+);
+
+if(alreadySubmitted){
+
+submitted = true;
+
+restoreSubmittedQuiz();
+
+}else{
+
 handleLoginCount(u);
-checkPrevious();
+
+startQuiz();
+
+}
+
 }
 
 /* USER INFO */
+
 function showUserInfo(u){
-const user=users.find(x=>x.username===u);
+
+const user =
+users.find(
+x=>x.username===u
+);
+
 if(user){
-userInfo.innerHTML="👤 "+user.name+" ("+user.username+")";
+
+userInfo.innerHTML =
+"👤 "
++
+user.name
++
+" ("
++
+user.username
++
+")";
+
 }
+
 }
 
 /* LOGIN COUNT */
+
 function handleLoginCount(user){
 
-const submitted=localStorage.getItem(quizKey+"_submitted_"+user);
+let count =
+parseInt(
 
-let count=parseInt(localStorage.getItem(quizKey+"_loginCount_"+user)||"0");
+localStorage.getItem(
+quizKey+
+"_loginCount_"+
+user
+)||"0"
 
-if(!submitted){
-  count++;
-  localStorage.setItem(quizKey+"_loginCount_"+user,count);
+);
+
+count++;
+
+localStorage.setItem(
+
+quizKey+
+"_loginCount_"+
+user,
+
+count
+
+);
+
+loginCountBox.innerHTML =
+"🔁 Login Count: "
++
+count;
+
 }
 
-loginCountBox.innerHTML="🔁 Login Count: "+count;
+/* START QUIZ */
+
+function startQuiz(){
+
+if(
+document.documentElement
+.requestFullscreen
+){
+
+document.documentElement
+.requestFullscreen();
+
 }
 
-/* LOGOUT */
-function logout(){
-sessionStorage.removeItem(quizKey+"_user");
-location.reload();
+renderPalette();
+
+renderQuestion();
+
+updateProgress();
+
+startTimer();
+
 }
 
-/* CHECK PREVIOUS */
-function checkPrevious(){
-const user=sessionStorage.getItem(quizKey+"_user");
-if(localStorage.getItem(quizKey+"_submitted_"+user)){
-  restoreAnswers();
+/* TIMER */
+
+function startTimer(){
+
+timerInterval =
+setInterval(()=>{
+
+if(timeLeft<=0){
+
+clearInterval(
+timerInterval
+);
+
+submitQuiz();
+
+return;
+
 }
+
+timeLeft--;
+
+const min =
+Math.floor(
+timeLeft/60
+);
+
+const sec =
+timeLeft%60;
+
+timer.innerText =
+"⏳ "
++
+String(min)
+.padStart(2,'0')
++
+":"
++
+String(sec)
+.padStart(2,'0');
+
+if(timeLeft<60){
+
+timer.style.color =
+"#ef4444";
+
+}
+
+},1000);
+
+}
+  /* PALETTE */
+
+function renderPalette(){
+
+paletteGrid.innerHTML='';
+
+questions.forEach((q,i)=>{
+
+const btn =
+document.createElement(
+'button'
+);
+
+btn.innerText=i+1;
+
+btn.className =
+'palette-btn';
+
+if(
+visitedQuestions.includes(i)
+){
+btn.classList.add(
+'visited'
+);
+}
+
+if(
+userAnswers[i]!=null
+){
+btn.classList.add(
+'answered'
+);
+}
+
+if(i===currentQuestion){
+
+btn.classList.add(
+'current'
+);
+
+}
+
+btn.onclick=()=>{
+
+if(submitted) return;
+
+currentQuestion=i;
+
+renderQuestion();
+
+};
+
+paletteGrid
+.appendChild(btn);
+
+});
+
+}
+
+/* QUESTION */
+
+function renderQuestion(){
+
+if(submitted){
+
+renderSubmittedQuestion();
+
+return;
+
+}
+
+if(
+!visitedQuestions.includes(
+currentQuestion
+)
+){
+
+visitedQuestions.push(
+currentQuestion
+);
+
+}
+
+const q =
+questions[currentQuestion];
+
+let optionsHTML = "";
+
+q.options.forEach(
+(opt,index)=>{
+
+optionsHTML +=
+
+'<label class="option">' +
+
+'<input type="radio" ' +
+
+'name="option" ' +
+
+'value="'+index+'" ' +
+
+(userAnswers[currentQuestion]
+==index
+? 'checked'
+: '') +
+
+' onchange="saveAnswer('
++
+index+
+')" > '
+
++
+
+opt +
+
+'</label>';
+
+});
+
+questionContainer.innerHTML =
+
+'<div class="question-card">' +
+
+'<div class="question-title">' +
+
+'Q'+
+(currentQuestion+1)
++
+'. '
++
+q.question +
+
+'</div>' +
+
+optionsHTML +
+
+'</div>';
+
+renderPalette();
+
+updateProgress();
+
+}
+
+/* SAVE ANSWER */
+
+function saveAnswer(ans){
+
+if(submitted) return;
+
+userAnswers[currentQuestion]
+= ans;
+
+renderPalette();
+
+updateProgress();
+
+}
+
+/* PROGRESS */
+
+function updateProgress(){
+
+const answered =
+userAnswers.filter(
+x=>x!=null
+).length;
+
+const percent =
+(answered/questions.length)
+*100;
+
+progressBar.style.width =
+percent+'%';
+
+}
+
+/* NAVIGATION */
+
+function nextQuestion(){
+
+if(submitted) return;
+
+if(
+currentQuestion
+<
+questions.length-1
+){
+
+currentQuestion++;
+
+renderQuestion();
+
+}
+
+}
+
+function prevQuestion(){
+
+if(submitted) return;
+
+if(currentQuestion>0){
+
+currentQuestion--;
+
+renderQuestion();
+
+}
+
+}
+  /* SUBMIT */
+
+function submitQuiz(){
+
+if(submitted) return;
+
+submitted = true;
+
+clearInterval(
+timerInterval
+);
+
+const user =
+sessionStorage.getItem(
+quizKey+"_user"
+);
+
+let score = 0;
+
+answers.forEach((ans,i)=>{
+
+if(userAnswers[i]===ans){
+score++;
+}
+
+});
+
+/* SAVE */
+
+localStorage.setItem(
+
+quizKey+
+"_submitted_"+
+user,
+
+"yes"
+
+);
+
+localStorage.setItem(
+
+quizKey+
+"_answers_"+
+user,
+
+JSON.stringify(
+userAnswers
+)
+
+);
+
+/* LOCK UI */
+
+prevBtn.disabled=true;
+nextBtn.disabled=true;
+
+document.getElementById(
+"submitBtn"
+).style.display="none";
+
+/* SCORE */
+
+const finalScore =
+"🎯 Score: "
++
+score
++
+"/"
++
+answers.length;
+
+result.innerHTML =
+finalScore;
+
+loginCountBox.innerHTML +=
+" | "
++
+finalScore;
+
+logoutBtn.style.display =
+"inline-block";
+
+/* SHOW SUBMITTED MODE */
+
+renderSubmittedQuestion();
+
+}
+
+/* SUBMITTED VIEW */
+
+function renderSubmittedQuestion(){
+
+const q =
+questions[currentQuestion];
+
+let optionsHTML = "";
+
+q.options.forEach(
+(opt,index)=>{
+
+let className = "";
+
+if(index===q.answer){
+
+className="correct";
+
+}
+
+if(
+userAnswers[currentQuestion]
+===index
+&&
+index!==q.answer
+){
+
+className="wrong";
+
+}
+
+optionsHTML +=
+
+'<label class="option '
++
+className+
+'">' +
+
+'<input type="radio" disabled '
+
++
+
+(userAnswers[currentQuestion]
+==index
+? 'checked'
+: '') +
+
+'> '
+
++
+
+opt +
+
+'</label>';
+
+});
+
+questionContainer.innerHTML =
+
+'<div class="question-card">' +
+
+'<div class="question-title">' +
+
+'Q'+
+(currentQuestion+1)
++
+'. '
++
+q.question +
+
+'</div>' +
+
+optionsHTML +
+
+'</div>';
+
 }
 
 /* RESTORE */
-function restoreAnswers(){
-const user=sessionStorage.getItem(quizKey+"_user");
-const saved=JSON.parse(localStorage.getItem(quizKey+"_answers_"+user)||"[]");
 
-let score=0;
+function restoreSubmittedQuiz(){
 
-answers.forEach((ans,i)=>{
-const opts=document.getElementsByName("q"+i);
-const val=saved[i];
+const user =
+sessionStorage.getItem(
+quizKey+"_user"
+);
 
-if(opts[val]) opts[val].checked=true;
+const savedAnswers =
+JSON.parse(
 
-if(val===ans){
-  opts[ans].parentElement.classList.add("correct");
-  score++;
-}else{
-  opts[ans].parentElement.classList.add("correct");
-  if(opts[val]) opts[val].parentElement.classList.add("wrong");
-}
-});
+localStorage.getItem(
+quizKey+
+"_answers_"+
+user
+)||"[]"
 
-result.innerText="🎯 Score: "+score+"/"+answers.length;
+);
 
-document.querySelectorAll("input[type=radio]").forEach(el=>el.disabled=true);
+userAnswers =
+savedAnswers;
 
-logoutBtn.style.display="inline-block";
-}
+renderPalette();
 
-/* SUBMIT */
-function submitQuiz(){
-const user=sessionStorage.getItem(quizKey+"_user");
+renderSubmittedQuestion();
 
-if(!user) return;
-if(localStorage.getItem(quizKey+"_submitted_"+user)) return;
-
-let score=0, userAns=[];
+let score = 0;
 
 answers.forEach((ans,i)=>{
-const sel=document.querySelector('input[name="q'+i+'"]:checked');
 
-if(sel){
-const val=parseInt(sel.value);
-userAns[i]=val;
+if(savedAnswers[i]===ans){
+score++;
+}
 
-if(val===ans){
-  score++;
-  sel.parentElement.classList.add("correct");
-}else{
-  sel.parentElement.classList.add("wrong");
-}
-}
 });
 
-localStorage.setItem(quizKey+"_submitted_"+user,"yes");
-localStorage.setItem(quizKey+"_answers_"+user,JSON.stringify(userAns));
+const finalScore =
+"🎯 Score: "
++
+score
++
+"/"
++
+answers.length;
 
-result.innerText="🎯 Score: "+score+"/"+answers.length;
+result.innerHTML =
+finalScore;
 
-document.querySelectorAll("input[type=radio]").forEach(el=>el.disabled=true);
+loginCountBox.innerHTML =
+"✅ Submitted | "
++
+finalScore;
 
-logoutBtn.style.display="inline-block";
+logoutBtn.style.display =
+"inline-block";
+
+document.getElementById(
+"submitBtn"
+).style.display =
+"none";
+
+prevBtn.disabled=true;
+nextBtn.disabled=true;
+
+}
+
+/* LOGOUT */
+
+function logout(){
+
+sessionStorage.removeItem(
+quizKey+"_user"
+);
+
+location.reload();
+
 }
 
 </script>
 
 </body>
+
 </html>
+
